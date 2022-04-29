@@ -260,68 +260,16 @@ public class Board {
                 break;
             case BISSHOP_BLACK:
             case BISSHOP_WHITE:
-                //TODO
-                boolean canMove = true;
-                if (getRow(index) > getRow(currentIndex)) {
-                    //Diagonal to right top
-                    if (getColumn(index) > getColumn(currentIndex)) {
-                        for (int i = currentIndex + 9; i <= index; i += 9) {
-                            if (getField(i) != Field.EMPTY) {
-                                if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
-                                    System.out.println("canMove set to false" + " with i = " + i);
-                                    canMove = false;
-                                } else if (i != index) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                }
-                            }
-                        }
-                    } else {
-                        for (int i = currentIndex + 7; i <= index; i += 7) {
-                            if (getField(i) != Field.EMPTY) {
-                                //Check if piece has the same color as other piece
-                                if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                } else if (i != index) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                }
-                            }
-                        }
-                    }
+                moveDiagonal(index, currentIndex, piece);
+                break;
+            case QUEEN_BLACK:
+            case QUEEN_WHITE:
+                if (getColumn(currentIndex) == getColumn(index) || getRow(currentIndex) == getRow(index)) {
+                    checkMoveStraight(index, currentIndex, piece, isWhite);
                 } else {
-                    //Diagonal to left down
-                    if (getColumn(index) < getColumn(currentIndex)) {
-                        for (int i = currentIndex - 9; i <= index; i -= 9) {
-                            if (getField(i) != Field.EMPTY) {
-                                if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                } else if (i != index) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                }
-                            }
-                        }
-                    } else {
-                        for (int i = currentIndex - 7; i <= index; i -= 7) {
-                            if (getField(i) != Field.EMPTY) {
-                                if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                } else if (i != index) {
-                                    System.out.println("canMove set to false");
-                                    canMove = false;
-                                }
-                            }
-                        }
-                    }
+                    moveDiagonal(index, currentIndex, piece);
                 }
-                if (canMove) {
-                    setField(index, piece);
-                    setField(currentIndex, Field.EMPTY);
-                }
+                break;
         }
         //Update should probably be removed in the future and be called by the game class.
         update();
@@ -391,6 +339,71 @@ public class Board {
                     setField(currentIndex, Field.EMPTY);
                 }
             }
+        }
+    }
+
+    public void moveDiagonal(int index, int currentIndex, Field piece) {
+        boolean canMove = true;
+        if (getRow(index) > getRow(currentIndex)) {
+            //Diagonal to right top
+            if (getColumn(index) > getColumn(currentIndex)) {
+                for (int i = currentIndex + 9; i <= index; i += 9) {
+                    if (getField(i) != Field.EMPTY) {
+                        if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                            System.out.println("canMove set to false" + " with i = " + i);
+                            canMove = false;
+                        } else if (i != index) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        }
+                    }
+                }
+            } else {
+                for (int i = currentIndex + 7; i <= index; i += 7) {
+                    if (getField(i) != Field.EMPTY) {
+                        //Check if piece has the same color as other piece
+                        if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        } else if (i != index) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        }
+                    }
+                }
+            }
+        } else {
+            //Diagonal to left down
+            if (getColumn(index) < getColumn(currentIndex)) {
+                for (int i = currentIndex - 9; i >= index; i -= 9) {
+                    if (getField(i) != Field.EMPTY) {
+                        if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        } else if (i != index) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        }
+                    }
+                }
+            } else {
+                for (int i = currentIndex - 7; i >= index; i -= 7) {
+                    System.out.println("Checking field: " + i);
+                    if (getField(i) != Field.EMPTY) {
+                        if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        } else if (i != index) {
+                            System.out.println("canMove set to false");
+                            canMove = false;
+                        }
+                    }
+                }
+            }
+        }
+        if (canMove) {
+            setField(index, piece);
+            setField(currentIndex, Field.EMPTY);
         }
     }
 

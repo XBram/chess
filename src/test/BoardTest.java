@@ -102,5 +102,22 @@ public class BoardTest {
         assertEquals(Field.KNIGHT_BLACK, board.getIndexNotationField("b8"));
         board.move("b3 b7");
         assertEquals(Field.ROOK_WHITE, board.getIndexNotationField("b7"));
+
+        //Move Queen
+        board.reset();
+        board.move("d1 d5");
+        assertEquals(Field.EMPTY, board.getIndexNotationField("d5"));
+        board.move("d2 d3");
+        board.move("d1 d4");
+        board.move("d1 d2");
+        assertEquals(Field.QUEEN_WHITE, board.getIndexNotationField("d2"));
+        board.move("d2 g5");
+        assertEquals(Field.QUEEN_WHITE, board.getIndexNotationField("g5"));
+        //Move Black Queen
+        board.move("e7 e6");
+        board.move("d8 h4");
+        assertEquals(Field.EMPTY, board.getIndexNotationField("h4"));
+        board.move("d8 g5");
+        assertEquals(Field.QUEEN_BLACK, board.getIndexNotationField("g5"));
     }
 }
