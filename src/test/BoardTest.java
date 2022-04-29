@@ -44,6 +44,12 @@ public class BoardTest {
     }
 
     @Test
+    public void testGetNotationHelper() {
+        assertEquals(1, board.getNotationHelper("a2")[0]);
+        assertEquals(0, board.getNotationHelper("a2")[1]);
+    }
+
+    @Test
     public void testMove() {
         board.move("a2 a3");
         board.move("h7 h5");
@@ -83,5 +89,18 @@ public class BoardTest {
         assertEquals(Field.BISSHOP_WHITE, board.getIndexNotationField("h6"));
         board.move("h6 f8");
         assertEquals(Field.BISSHOP_BLACK, board.getIndexNotationField("f8"));
+
+        board.reset();
+        board.move("a1 a8");
+        assertEquals(Field.ROOK_BLACK, board.getIndexNotationField("a8"));
+        board.move("a1 a7");
+        assertEquals(Field.PAWN_BLACK, board.getIndexNotationField("a7"));
+        board.move("a2 a4");
+        board.move("a1 a3");
+        board.move("a3 b3");
+        board.move("b3 b8");
+        assertEquals(Field.KNIGHT_BLACK, board.getIndexNotationField("b8"));
+        board.move("b3 b7");
+        assertEquals(Field.ROOK_WHITE, board.getIndexNotationField("b7"));
     }
 }

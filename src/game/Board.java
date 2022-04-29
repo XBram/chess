@@ -109,7 +109,7 @@ public class Board {
 
     }
 
-    public int getIndexNotation(String notation) {
+    public int[] getNotationHelper(String notation) {
         String number = notation.substring(1, 2);
         int row = Integer.parseInt(number) - 1;
         int col = 0;
@@ -139,40 +139,15 @@ public class Board {
                 col = 7;
                 break;
         }
-        return getIndex(row, col);
+        return new int[]{ row, col };
+    }
+
+    public int getIndexNotation(String notation) {
+        return getIndex(getNotationHelper(notation)[0], getNotationHelper(notation)[1]);
     }
 
     public Field getIndexNotationField(String notation) {
-        String number = notation.substring(1, 2);
-        int row = Integer.parseInt(number) - 1;
-        int col = 0;
-        switch (notation.charAt(0)) {
-            case 'a':
-                col = 0;
-                break;
-            case 'b':
-                col = 1;
-                break;
-            case 'c':
-                col = 2;
-                break;
-            case 'd':
-                col = 3;
-                break;
-            case 'e':
-                col = 4;
-                break;
-            case 'f':
-                col = 5;
-                break;
-            case 'g':
-                col = 6;
-                break;
-            case 'h':
-                col = 7;
-                break;
-        }
-        return getField(row, col);
+        return getField(getNotationHelper(notation)[0], getNotationHelper(notation)[1]);
     }
 
     /**
@@ -224,13 +199,20 @@ public class Board {
                                 if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
                                     System.out.println("canMove set to false" + " with i = " + i);
                                     canMove = false;
+                                } else if (i != index) {
+                                    System.out.println("canMove set to false");
+                                    canMove = false;
                                 }
                             }
                         }
                     } else {
                         for (int i = currentIndex + 7; i <= index; i += 7) {
                             if (getField(i) != Field.EMPTY) {
+                                //Check if piece has the same color as other piece
                                 if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                                    System.out.println("canMove set to false");
+                                    canMove = false;
+                                } else if (i != index) {
                                     System.out.println("canMove set to false");
                                     canMove = false;
                                 }
@@ -245,6 +227,9 @@ public class Board {
                                 if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
                                     System.out.println("canMove set to false");
                                     canMove = false;
+                                } else if (i != index) {
+                                    System.out.println("canMove set to false");
+                                    canMove = false;
                                 }
                             }
                         }
@@ -252,6 +237,9 @@ public class Board {
                         for (int i = currentIndex - 7; i <= index; i -= 7) {
                             if (getField(i) != Field.EMPTY) {
                                 if (!(whitePieces.contains(getField(currentIndex)) && blackPieces.contains(getField(index)) || whitePieces.contains(getField(index)) && blackPieces.contains(getField(currentIndex)))) {
+                                    System.out.println("canMove set to false");
+                                    canMove = false;
+                                } else if (i != index) {
                                     System.out.println("canMove set to false");
                                     canMove = false;
                                 }
