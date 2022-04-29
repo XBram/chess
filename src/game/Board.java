@@ -15,10 +15,16 @@ public class Board {
 
     Field[] fields = new Field[DIM * DIM];
 
+    /**
+     * Called when board is initialized, also resets the board
+     */
     public Board() {
         reset();
     }
 
+    /**
+     * Resets the board to its original state
+     */
     public void reset() {
         fields[getIndex(7, 0)] = Field.ROOK_BLACK;
         fields[getIndex(7, 1)] = Field.KNIGHT_BLACK;
@@ -48,26 +54,59 @@ public class Board {
         }
     }
 
+    /**
+     * gets the index using the row and column
+     * @param row the row index used for calculation
+     * @param col the column index used for calculation
+     * @return the index
+     */
     public int getIndex(int row, int col) {
         return row * 8 + col;
     }
 
+    /**
+     * Gets the Field value of the given index
+     * @param index index of the Field
+     * @return the Field
+     */
     public Field getField(int index) {
         return fields[index];
     }
 
+    /**
+     * Gets the Field value of the given row and column
+     * @param row row index
+     * @param col column index
+     * @return the Field
+     */
     public Field getField(int row, int col) {
         return fields[getIndex(row, col)];
     }
 
+    /**
+     * Sets the associated index Field to a Field value
+     * @param index the index of the Field to be changed
+     * @param field the Field value to change to
+     */
     public void setField(int index, Field field) {
         fields[index] = field;
     }
 
+    /**
+     * Sets the associated index Field to a Field value
+     * @param row the row index of the Field to be changed
+     * @param col the column index of the Field to be changed
+     * @param field the Field value to change to
+     */
     public void setField(int row, int col, Field field) {
         fields[getIndex(row, col)] = field;
     }
 
+    /**
+     * Gives the row index of an index value
+     * @param index the index
+     * @return the row index
+     */
     public int getRow(int index) {
         if (index < 8) {
             return 0;
@@ -88,6 +127,11 @@ public class Board {
         }
     }
 
+    /**
+     * Gives the column index of an index value
+     * @param index the index
+     * @return the column index
+     */
     public int getColumn(int index) {
         if (index % 8 == 0) {
             return 0;
@@ -109,6 +153,11 @@ public class Board {
 
     }
 
+    /**
+     * Returns the row and col value of the given notation
+     * @param notation the chess notation
+     * @return the row and col
+     */
     public int[] getNotationHelper(String notation) {
         String number = notation.substring(1, 2);
         int row = Integer.parseInt(number) - 1;
@@ -142,16 +191,27 @@ public class Board {
         return new int[]{ row, col };
     }
 
+    /**
+     * returns the index of the given notation
+     * @param notation the chess notation
+     * @return the index
+     */
     public int getIndexNotation(String notation) {
         return getIndex(getNotationHelper(notation)[0], getNotationHelper(notation)[1]);
     }
 
+    /**
+     * returns the Field of the given notation
+     * @param notation the chess notation
+     * @return the Field
+     */
     public Field getIndexNotationField(String notation) {
         return getField(getNotationHelper(notation)[0], getNotationHelper(notation)[1]);
     }
 
     /**
      * Moves a chess piece to the desired field and checks if it is a valid move;
+     * @param notation the chess notation
      */
     public void move(String notation) {
         String[] fields = notation.split("\\s+");
@@ -256,6 +316,13 @@ public class Board {
         update();
     }
 
+    /**
+     * Check if a straight move (Rook, Queen, King) is valid
+     * @param index destination index
+     * @param currentIndex current index
+     * @param piece this piece
+     * @param isWhite true if this piece is white
+     */
     public void checkMoveStraight(int index, int currentIndex, Field piece, boolean isWhite) {
         if (getRow(index) == getRow(currentIndex)) {
             if (getColumn(index) > getColumn(currentIndex)) {
@@ -315,6 +382,12 @@ public class Board {
         }
     }
 
+    /**
+     * Checks if the target piece is white
+     * @param index target piece
+     * @param isWhite if piece is white this is true
+     * @return true if piece is same color, otherwise false
+     */
     public boolean isSameColor(int index, boolean isWhite) {
         if (isWhite) {
             if (!blackPieces.contains(getField(index))) {
@@ -328,10 +401,17 @@ public class Board {
         return true;
     }
 
+    /**
+     * Puts out a text of the current board situation
+     */
     public void update() {
         System.out.println(this.toString());
     }
 
+    /**
+     * Gives a textual output of the Board
+     * @return textual representation of board
+     */
     public String toString() {
         String s = "";
         for (int i = DIM - 1; i >= 0; i--) {
