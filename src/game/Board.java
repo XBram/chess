@@ -270,6 +270,16 @@ public class Board {
                     moveDiagonal(index, currentIndex, piece);
                 }
                 break;
+            case KING_BLACK:
+            case KING_WHITE:
+                //Check for valid move king
+                if (index == currentIndex + 1 || index == currentIndex - 1 || index == currentIndex + 8 || index == currentIndex - 8 ||index == currentIndex + 9 || index == currentIndex - 9 || index == currentIndex + 7 || index == currentIndex - 7) {
+                    //Check if field is empty or is the same color
+                    if (getField(index) == Field.EMPTY || blackPieces.contains(getField(index)) == isWhite) {
+                        setField(index, piece);
+                        setField(currentIndex, Field.EMPTY);
+                    }
+                }
         }
         //Update should probably be removed in the future and be called by the game class.
         update();
@@ -453,7 +463,7 @@ public class Board {
                 s += "\n" + LINE + DELIM + "\n";
             }
         }
-        s += "\n" + "\n" + BOARD_NUMBERING[0];
+        s += "\n" + "\n" + BOARD_NUMBERING[0] + "\n" + "\n";
         return s;
     }
 }
